@@ -1,9 +1,8 @@
 <div class="wrapper">
   <div class="sidebar"><app-sidebar></app-sidebar></div>
   <div class="main-panel">
-    <!-- <app-navbar></app-navbar> -->
     <router-outlet></router-outlet>
-    <!-- <app-footer></app-footer> -->
+    <app-footer></app-footer>
   </div>
 </div>
 <div class=" fixed-plugin">
@@ -12,7 +11,7 @@
       <i class=" fa fa-cog fa-2x"> </i>
     </a>
     <ul ngbDropdownMenu>
-      <li class=" header-title">Sidebar Background</li>
+      <!-- <li class=" header-title">Sidebar Background</li>
       <li class=" adjustments-line">
         <a class=" switch-trigger background-color" href="javascript:void(0)">
           <div class=" badge-colors text-center">
@@ -32,7 +31,7 @@
           </div>
           <div class=" clearfix"></div>
         </a>
-      </li>
+      </li> -->
       <li class=" adjustments-line text-center color-change">
         <span class=" color-label"> LIGHT MODE </span>
         <span class=" badge light-badge mr-2" (click)="changeDashboardColor('white-content')"> </span>
