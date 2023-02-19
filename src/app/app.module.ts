@@ -1,3 +1,4 @@
+import { ChatService } from './services/chat.service';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
@@ -26,7 +27,7 @@ import { SharingService } from "./services/sharing.service";
     ToastrModule.forRoot()
   ],
   declarations: [AppComponent, AdminLayoutComponent],
-  providers: [SharingService],
+  providers: [SharingService, ChatService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

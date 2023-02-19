@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { SharingService } from "src/app/services/sharing.service";
+import { ChatService } from './../../services/chat.service';
 
 @Component({
   selector: "app-footer",
   templateUrl: "./footer.component.html",
-  styleUrls: ["./footer.component.scss"]
+  styleUrls: ["./footer.component.scss"], 
+
 })
 export class FooterComponent implements OnInit {
   test: Date = new Date();
@@ -12,7 +14,8 @@ export class FooterComponent implements OnInit {
   chats: any[] = [];
   id: number = 0;
   subscription: any;
-  constructor(private sharingDataSer: SharingService) {}
+  public userInput: string;
+  constructor(private sharingDataSer: SharingService, public chatService: ChatService) {}
 
   ngOnInit() {
   }
@@ -42,4 +45,9 @@ export class FooterComponent implements OnInit {
       console.log(err);
     }
   }
+
+  // sendMessage() {
+  //   this.chatService.sendMessage(this.userInput);
+  //   this.userInput = '';
+  // }
 }
