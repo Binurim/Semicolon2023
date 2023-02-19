@@ -1,3 +1,4 @@
+import { ChatService } from './services/chat.service';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
@@ -25,7 +26,7 @@ import { ComponentsModule } from "./components/components.module";
     ToastrModule.forRoot()
   ],
   declarations: [AppComponent, AdminLayoutComponent],
-  providers: [],
+  providers: [ChatService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
