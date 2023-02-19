@@ -1,75 +1,33 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import { SharingService } from 'src/app/services/sharing.service';
 
 @Component({
  selector: 'app-icons',
  templateUrl: './icons.component.html',
  styleUrls: ["./icons.component.scss"]
 })
-export class IconsComponent {
-  title = 'angular-chat';
-  // channel: ChannelData;
-  username = '';
-  // messages: Message[] = [];
-  newMessage = '';
-  // channelList: ChannelData[];
-  chatClient: any;
-  // currentUser: User;
+export class IconsComponent implements OnInit {
 
-  async joinChat() {
-    // const { username } = this;
-    // try {
-    //   const response = await axios.post('http://localhost:5500/join', {
-    //     username,
-    //   });
-    //   const { token } = response.data;
-    //   const apiKey = response.data.api_key;
+  constructor(private sharingService: SharingService) {}
+  
+  message: string;
+  chatstarted: boolean = false;
 
-    //   this.chatClient = new StreamChat(apiKey);
-
-    //   this.currentUser = await this.chatClient.setUser(
-    //     {
-    //       id: username,
-    //       name: username,
-    //     },
-    //     token
-    //   );
-
-    //   const channel = this.chatClient.channel('team', 'talkshop');
-    //   await channel.watch();
-    //   this.channel = channel;
-    //   this.messages = channel.state.messages;
-    //   this.channel.on('message.new', event => {
-    //     this.messages = [...this.messages, event.message];
-    //   });
-
-    //   const filter = {
-    //     type: 'team',
-    //     members: { $in: [`${this.currentUser.me.id}`] },
-    //   };
-    //   const sort = { last_message_at: -1 };
-
-    //   this.channelList = await this.chatClient.queryChannels(filter, sort, {
-    //     watch: true,
-    //     state: true,
-    //   });
-    // } catch (err) {
-    //   console.log(err);
-    //   return;
-    // }
+  ngOnInit() {
+    this.sharingService.addChat$.subscribe(
+      status => { 
+        if(status) {
+          this.chatstarted = status == 'true';
+          this.createChat();
+        }
+      }
+    );
   }
 
-  async sendMessage() {
-    // if (this.newMessage.trim() === '') {
-    //   return;
-    // }
-
-    // try {
-    //   await this.channel.sendMessage({
-    //     text: this.newMessage,
-    //   });
-    //   this.newMessage = '';
-    // } catch (err) {
-    //   console.log(err);
-    // }
+  createChat() {
+    const arr = JSON.parse(localStorage.getItem('chats'));
+    if(arr) {
+      this.message = arr[Number(localStorage.getItem('chatId'))-1]?.title;
+    }
   }
 }

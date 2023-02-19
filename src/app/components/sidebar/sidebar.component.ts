@@ -1,9 +1,11 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Subscription } from "rxjs";
+import { SharingService } from "src/app/services/sharing.service";
 
 declare interface RouteInfo {
+  id: number;
   path: string;
   title: string;
-  rtlTitle: string;
   icon: string;
   class: string;
 }
@@ -69,20 +71,77 @@ export const ROUTES: RouteInfo[] = [
 @Component({
   selector: "app-sidebar",
   templateUrl: "./sidebar.component.html",
-  styleUrls: ["./sidebar.component.css"]
+  styleUrls: ["./sidebar.component.scss"]
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, OnDestroy {
   menuItems: any[];
+  newChatStarted: boolean = true;
+  constructor(private sharingService: SharingService) {
+  }
 
-  constructor() {}
+  subscription: any;
 
   ngOnInit() {
     this.menuItems = ROUTES.filter(menuItem => menuItem);
+
+    this.sharingService.addChat$.subscribe(
+      status => { 
+        if(status) {
+          this.getMenuItem();
+        }
+      }
+    );
+    this.getMenuItem();
+    this.newChatStarted? localStorage.setItem('newChatStarted', 'true'): localStorage.setItem('newChatStarted', 'false');
   }
   isMobileMenu() {
     if (window.innerWidth > 991) {
       return false;
     }
     return true;
+  }
+
+  getMenuItem() {
+    this.menuItems = [];
+    const arr = JSON.parse(localStorage.getItem('chats'));
+    arr?.forEach(item => {
+      if(item) {
+        this.menuItems?.push(
+          {
+                id: item.id,
+                path: `chat/${item.id}`,
+                title: item.title,
+                icon: "icon-world",
+                class: ""
+          }
+        );
+      }
+    });
+  }
+
+  clickNewChat() {
+    this.newChatStarted = true;
+    this.newChatStarted? localStorage.setItem('newChatStarted', 'true'): localStorage.setItem('newChatStarted', 'false');
+    localStorage.setItem('chatId', null);
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+    this.subscription = this.sharingService.getAddChatFalse().subscribe();
+    
+  }
+
+  clickExistingChat(id: number) {
+    this.newChatStarted = false;
+    this.newChatStarted? localStorage.setItem('newChatStarted', 'true'): localStorage.setItem('newChatStarted', 'false');
+    localStorage.setItem('chatId', id.toString());
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+    this.subscription = this.sharingService.getAddChatTrue().subscribe();
+    
+  }
+
+  ngOnDestroy() {
+    this.subscription.forEach((sub) => sub.unsubscribe());
   }
 }

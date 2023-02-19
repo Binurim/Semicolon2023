@@ -1,15 +1,17 @@
 <footer>
   <div class="type_msg">
-    <form class="input_msg_write" (ngSubmit)="sendMessage()">
+    <form class="input_msg_write">
       <textarea tabindex="0"
        data-id="root" 
        rows="2" 
        placeholder="Type here..."
        class="m-0 w-full resize-none border-0 bg-transparent p-0 pl-2 pr-7 focus:ring-0 focus-visible:ring-0 dark:bg-transparent md:pl-0" 
+       [(ngModel)]="textMsg"
+       (keyup.enter)="sendMessage()"
       ></textarea>
-    <button class="msg_send_btn" type="button">
-      <i class=" tim-icons icon-send"> </i>
-    </button>
+      <button class="msg_send_btn" type="button" (click)="sendMessage()">
+        <i class=" tim-icons icon-send"> </i>
+      </button>
     </form>
   </div>
 </footer>

@@ -1,4 +1,5 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { SharingService } from "src/app/services/sharing.service";
 
 @Component({
   selector: "app-footer",
@@ -7,10 +8,38 @@ import { Component, OnInit } from "@angular/core";
 })
 export class FooterComponent implements OnInit {
   test: Date = new Date();
+  textMsg: string;
+  chats: any[] = [];
+  id: number = 0;
+  subscription: any;
+  constructor(private sharingDataSer: SharingService) {}
 
-  constructor() {}
+  ngOnInit() {
+  }
 
-  ngOnInit() {}
+  async sendMessage() {
+    if (this.textMsg.trim() === '') {
+      return;
+    }
+    try {
+      this.chats = JSON.parse(localStorage.getItem('chats'))? JSON.parse(localStorage.getItem('chats')): [];
+      this.id = this.chats?.length + 1;
+      if(localStorage.getItem('newChatStarted') == 'true') {
+        this.chats.push({id: this.id, title: this.textMsg});
+        localStorage.setItem('chatId', this.id.toString());
+        this.id++;
+      }
+      localStorage.setItem('chats', JSON.stringify(this.chats));
+      localStorage.setItem('newChatStarted', 'false');
+      this.textMsg = '';
 
-  sendMessage() {}
+      if (this.subscription) {
+        this.subscription.unsubscribe();
+      }
+      this.subscription = this.sharingDataSer.getAddChatTrue().subscribe();
+      
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }

@@ -1,5 +1,12 @@
 .card-user {
   overflow: hidden;
+    max-height: calc(100vh - 200px);
+    min-height: 100%;
+    width: 100%;
+    min-height: 100%;
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
     .image {
         height: 120px;
     }

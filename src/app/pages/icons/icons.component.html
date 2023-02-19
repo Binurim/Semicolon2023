@@ -819,7 +819,7 @@
   </div>
 </div> -->
 
-<div class=" content">
+<div *ngIf="!chatstarted" class=" content">
   <div class=" row">
     <div class=" col-md-12">
       <div class=" card card-user">
@@ -836,30 +836,102 @@
               <h5 class=" title">Semicolons</h5>
             </a>
           </div>
-          <div class="row card-description">
+          <div class="row card-description-text">
             <div class="col-3 sub-card">
-              <p class=" title row card-description">Card 1</p>
+              <h3 class="card-description-text"><i class="tim-icons icon-bullet-list-67 mr-3"> </i>Example messages</h3>
+              <p class=" title row card-description-text">Card 1</p>
             </div>
             <div class="col-3 sub-card">
-              <p class=" title row card-description">Card 2</p>
+              <h3 class="card-description-text"><i class=" tim-icons icon-bulb-63 mr-3"> </i>Capebilities</h3>
+              <p class=" title row card-description-text">Card 2</p>
             </div>
             <div class="col-3 sub-card">
-              <p class=" title row card-description">Card 3</p>
+              <h3 class="card-description-text"><i class=" tim-icons icon-alert-circle-exc mr-3"> </i>Limitations</h3>
+              <p class=" title row card-description-text">Card 3</p>
+            </div>
+          </div>
+          <div class=" card-footer">
+            <div class=" button-container">
+              <button class=" btn btn-icon btn-round btn-facebook" href="javascript:void(0)">
+                <i class=" fab fa-facebook"> </i>
+              </button>
+              <button class=" btn btn-icon btn-round btn-twitter" href="javascript:void(0)">
+                <i class=" fab fa-twitter"> </i>
+              </button>
+              <button class=" btn btn-icon btn-round btn-google" href="javascript:void(0)">
+                <i class=" fab fa-google-plus"> </i>
+              </button>
             </div>
           </div>
         </div>
-        <div class=" card-footer">
-          <div class=" button-container">
-            <button class=" btn btn-icon btn-round btn-facebook" href="javascript:void(0)">
-              <i class=" fab fa-facebook"> </i>
-            </button>
-            <button class=" btn btn-icon btn-round btn-twitter" href="javascript:void(0)">
-              <i class=" fab fa-twitter"> </i>
-            </button>
-            <button class=" btn btn-icon btn-round btn-google" href="javascript:void(0)">
-              <i class=" fab fa-google-plus"> </i>
-            </button>
-          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="chatstarted" class="msg_container"> 
+  <div class="messaging">
+    <div class="inbox_msg">
+      <div class="mesgs">
+        <div class="msg_history">
+          <li class="message" >
+            <div class="outgoing_msg">
+              <div class="sent_msg">
+                <span>
+                  <p>{{ message }}</p>
+                </span>
+              </div>
+              <div class="outgoing_msg_img">
+                <img
+                  src="assets/img/default-avatar.png"
+                  alt="User avatar"
+                />
+              </div>
+            </div>
+            
+            <div *ngIf="message" class="incoming_msg">
+              <div class="incoming_msg_img">
+                <img
+                  src="assets/img/anime3.png"
+                  alt="User avatar"
+                />
+              </div>
+              <div class="received_msg">
+                <div class="received_withd_msg">
+                  <p>Hi</p>
+                </div>
+              </div>
+            </div>
+            <!-- <div
+              *ngIf="
+                message.user.id !== currentUser.me.id;
+                then incoming_msg;
+                else outgoing_msg
+              "
+            ></div>
+            <ng-template #incoming_msg>
+              <div class="incoming_msg">
+                <div class="incoming_msg_img">
+                  <img
+                    src="https://i.imgur.com/k2PZLZa.png"
+                    alt="User avatar"
+                  />
+                </div>
+                <div class="received_msg">
+                  <div class="received_withd_msg">
+                    <p>{{ message.text }}</p>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+            <ng-template #outgoing_msg>
+              <div class="outgoing_msg">
+                <div class="sent_msg">
+                  <p>{{ message.text }}</p>
+                </div>
+              </div>
+            </ng-template> -->
+          </li>
         </div>
       </div>
     </div>

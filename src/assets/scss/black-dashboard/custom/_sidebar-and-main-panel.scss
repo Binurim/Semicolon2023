@@ -158,9 +158,9 @@
                 display: block;
                 text-decoration: none;
                 position: relative;
-                text-transform: uppercase;
+                text-transform: capitalize;
                 cursor: pointer;
-                font-size: $font-size-xs;
+                font-size: 14px;
                 padding: 10px 8px;
                 line-height: $line-height-lg;
             }

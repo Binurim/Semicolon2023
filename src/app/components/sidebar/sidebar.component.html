@@ -1,8 +1,8 @@
 <div class="logo">
-  <a href="#/chat" class="simple-text logo-mini">
+  <a href="#/chat" class="simple-text logo-mini" (click)="clickNewChat()">
     <i class=" tim-icons icon-simple-add"> </i>
   </a>
-  <a href="#/chat" class="simple-text logo-normal">
+  <a href="#/chat" class="simple-text logo-normal" (click)="clickNewChat()">
     New Chat
   </a>
 </div>
@@ -13,10 +13,11 @@
       *ngFor="let menuItem of menuItems"
       class="{{ menuItem.class }} nav-item"
     >
-      <a [routerLink]="[menuItem.path]">
+      <a [routerLink]="[menuItem.path]" (click)="clickExistingChat(menuItem.id)">
         <i class="tim-icons  {{ menuItem.icon }}"></i>
-        <p>{{ menuItem?.title }}</p>
+        <p class="menuItem">{{ menuItem?.title }}</p>
       </a>
     </li>
   </ul>
 </div>
+
