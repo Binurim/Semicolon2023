@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { Subscription } from "rxjs";
 import { SharingService } from "src/app/services/sharing.service";
 
 declare interface RouteInfo {
@@ -76,7 +75,7 @@ export const ROUTES: RouteInfo[] = [
 export class SidebarComponent implements OnInit, OnDestroy {
   menuItems: any[];
   newChatStarted: boolean = true;
-  existiingChatClicked: number;
+  existingChatId: string;
   constructor(private sharingService: SharingService) {
   }
 
@@ -123,8 +122,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
   clickNewChat() {
     this.newChatStarted = true;
     this.newChatStarted? localStorage.setItem('newChatStarted', 'true'): localStorage.setItem('newChatStarted', 'false');
-    localStorage.setItem('chatId', null);
-    this.existiingChatClicked = null;
+    localStorage.setItem('chatId', '');
+    this.existingChatId = '';
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
@@ -136,7 +135,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.newChatStarted = false;
     this.newChatStarted? localStorage.setItem('newChatStarted', 'true'): localStorage.setItem('newChatStarted', 'false');
     localStorage.setItem('chatId', id.toString());
-    this.existiingChatClicked = id;
+    this.existingChatId = id.toString();
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
@@ -145,12 +144,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   deleteExistingChat(id: number) {
-    // const arr = JSON.parse(localStorage.getItem('chats'));
-    // const newarr = arr.splice(id-1, 1);
-    // newarr.forEach((element, index) => {
-    //   element.id = index+1;
-    // });
-    // localStorage.setItem('chats', newarr);
+    const arr = JSON.parse(localStorage.getItem('chats'));
+    const newarr = arr?.filter((item) => item.id !== id);
+    newarr?.forEach((element, index) => {
+      if(element?.id) {
+        delete element.id;
+        element.id = index+1;
+      }
+    });
+    localStorage.setItem('chats', JSON.stringify(newarr));
   }
 
   ngOnDestroy() {

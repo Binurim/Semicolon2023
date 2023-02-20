@@ -18,10 +18,10 @@
         <div class="col-6 menuItem">
           <span>{{ menuItem?.title }}</span>
         </div>
-        <div *ngIf="menuItem.id == existiingChatClicked" class="col-1">
+        <div *ngIf="menuItem.id == existingChatId" class="col-1">
           <i class=" delete tim-icons icon-pencil"> </i>
         </div>
-        <div *ngIf="menuItem.id == existiingChatClicked" class="col-1">
+        <div *ngIf="menuItem.id == existingChatId" class="col-1">
           <i class=" delete tim-icons icon-trash-simple" (click)="deleteExistingChat(menuItem.id)"> </i>
         </div>
       </div>
