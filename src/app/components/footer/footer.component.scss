@@ -28,3 +28,21 @@
     color: gray;
     padding: 8px !important;
 }
+
+.feedback-styles {
+    cursor: pointer;
+    font-size: 15px;
+    color: #fff;
+    justify-content: center;
+    //    background-color: #263148;
+    background: transparent;
+    position: absolute;
+    border-radius: 10px;
+}
+
+.test-style {
+    padding: 10px 200px 10px 450px;
+    justify-content: center;
+    position: absolute;
+    margin-top: 10px;
+}

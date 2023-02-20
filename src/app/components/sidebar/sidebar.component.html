@@ -3,7 +3,7 @@
     <i class=" tim-icons icon-simple-add"> </i>
   </a>
   <a href="#/chat" class="simple-text logo-normal" (click)="clickNewChat()">
-    New Chat
+    New Clarification 
   </a>
 </div>
 <div class="sidebar-wrapper">
@@ -15,7 +15,7 @@
     >
     <a [routerLink]="[menuItem.path]" (click)="clickExistingChat(menuItem.id)">
       <div class="row col-12">
-        <div class="col-6 menuItem">
+        <div [ngClass]="menuItem?.id != existingChatId ? 'col-12 menuItem' : 'col-6 menuItem'">
           <span>{{ menuItem?.title }}</span>
         </div>
         <div *ngIf="menuItem.id == existingChatId" class="col-1">

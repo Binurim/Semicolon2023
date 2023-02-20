@@ -4,7 +4,7 @@
     padding: 10px;
     margin: 10px;
     border-radius: 10px;
-    height: 200px;
+	height: fit-content;
 }
 
 .card-description {
@@ -17,12 +17,28 @@
     font-weight: 400;
 }
 
+.color-white {
+	color: white;
+    font-weight: 300;
+}
 
+.mouse-pointer {
+	cursor: pointer;
+}
 
-
-
-
-
+.back_btn {
+    background: #344675;
+    background-image: linear-gradient(to bottom left, #344675, #263148, #344675);
+    border: medium none;
+    border-radius: 50%;
+    color: #fff;
+    cursor: pointer;
+    font-size: 17px;
+    height: 35px;
+    float:right;
+    margin: 15px;
+    width: 35px;
+}
 
 .msg_container {
 	padding: 30px 30px 30px 280px;

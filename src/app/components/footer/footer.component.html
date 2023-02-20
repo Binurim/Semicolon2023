@@ -1,8 +1,10 @@
 <footer>
+  <div *ngIf="showFeedbackButton" class="row col-12 test-style">
+    <button class=" row  pt-3 col-4 feedback-styles"> <i class=" col-1 tim-icons icon-tap-02"> </i><h5 class="col-3">Send Feedback</h5></button>
+  </div>
   <div class="type_msg">
     <form class="input_msg_write">
       <textarea tabindex="0"
-       [(ngModel)]="userInput"
        data-id="root" 
        rows="2" 
        placeholder="Type here..."
