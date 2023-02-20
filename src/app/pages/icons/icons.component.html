@@ -874,7 +874,7 @@
     <div class="inbox_msg">
       <div class="mesgs">
         <div class="msg_history">
-          <li class="message" >
+          <li class="message" *ngFor="let message of messages">
             <div class="outgoing_msg">
               <div class="sent_msg">
                 <span>
@@ -898,7 +898,7 @@
               </div>
               <div class="received_msg">
                 <div class="received_withd_msg">
-                  <p>Hi</p>
+                  <p>{{ message }}</p>
                 </div>
               </div>
             </div>

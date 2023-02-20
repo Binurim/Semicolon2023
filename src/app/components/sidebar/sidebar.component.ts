@@ -76,6 +76,7 @@ export const ROUTES: RouteInfo[] = [
 export class SidebarComponent implements OnInit, OnDestroy {
   menuItems: any[];
   newChatStarted: boolean = true;
+  existiingChatClicked: number;
   constructor(private sharingService: SharingService) {
   }
 
@@ -123,6 +124,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.newChatStarted = true;
     this.newChatStarted? localStorage.setItem('newChatStarted', 'true'): localStorage.setItem('newChatStarted', 'false');
     localStorage.setItem('chatId', null);
+    this.existiingChatClicked = null;
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
@@ -134,11 +136,21 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.newChatStarted = false;
     this.newChatStarted? localStorage.setItem('newChatStarted', 'true'): localStorage.setItem('newChatStarted', 'false');
     localStorage.setItem('chatId', id.toString());
+    this.existiingChatClicked = id;
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
     this.subscription = this.sharingService.getAddChatTrue().subscribe();
     
+  }
+
+  deleteExistingChat(id: number) {
+    // const arr = JSON.parse(localStorage.getItem('chats'));
+    // const newarr = arr.splice(id-1, 1);
+    // newarr.forEach((element, index) => {
+    //   element.id = index+1;
+    // });
+    // localStorage.setItem('chats', newarr);
   }
 
   ngOnDestroy() {

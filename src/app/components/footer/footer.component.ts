@@ -28,9 +28,14 @@ export class FooterComponent implements OnInit {
       this.chats = JSON.parse(localStorage.getItem('chats'))? JSON.parse(localStorage.getItem('chats')): [];
       this.id = this.chats?.length + 1;
       if(localStorage.getItem('newChatStarted') == 'true') {
-        this.chats.push({id: this.id, title: this.textMsg});
+        this.chats.push({id: this.id, title: this.textMsg, sendMsgs: [this.textMsg]});
         localStorage.setItem('chatId', this.id.toString());
         this.id++;
+      } else {
+        const chatId = Number(localStorage.getItem('chatId'));
+        const msgs = JSON.parse(localStorage.getItem('chats'))? (JSON.parse(localStorage.getItem('chats')))[chatId-1]?.sendMsgs: [];
+        msgs.push(this.textMsg);
+        this.chats[chatId-1].sendMsgs = msgs;
       }
       localStorage.setItem('chats', JSON.stringify(this.chats));
       localStorage.setItem('newChatStarted', 'false');

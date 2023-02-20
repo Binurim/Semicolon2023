@@ -10,7 +10,7 @@ export class IconsComponent implements OnInit {
 
   constructor(private sharingService: SharingService) {}
   
-  message: string;
+  messages: [] = [];
   chatstarted: boolean = false;
 
   ngOnInit() {
@@ -27,7 +27,7 @@ export class IconsComponent implements OnInit {
   createChat() {
     const arr = JSON.parse(localStorage.getItem('chats'));
     if(arr) {
-      this.message = arr[Number(localStorage.getItem('chatId'))-1]?.title;
+      this.messages = arr[Number(localStorage.getItem('chatId'))-1]?.sendMsgs;
     }
   }
 }

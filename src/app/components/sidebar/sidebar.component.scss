@@ -1,3 +1,11 @@
-// .menuItem {
-//     font-size: 14px;
-// }
+.menuItem {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.delete {
+    margin-left: 10px;
+    width: 15px;
+    height: 15px;
+}
