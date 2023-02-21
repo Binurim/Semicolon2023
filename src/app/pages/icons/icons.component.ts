@@ -1,11 +1,16 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { SharingService } from 'src/app/services/sharing.service';
 
+let speech = new SpeechSynthesisUtterance();
+
+function readText(txt){ speech.text = txt; speech.rate =1; speech.volume = 1; speech.pitch =1; speech.lang="en-US"; window.speechSynthesis.speak(speech); }
+
 @Component({
   selector: 'app-icons',
   templateUrl: './icons.component.html',
   styleUrls: ["./icons.component.scss"]
 })
+
 export class IconsComponent implements OnInit {
   isNewClStarted: boolean = false;
   isContinueExistingCl: boolean = false;
@@ -19,7 +24,7 @@ export class IconsComponent implements OnInit {
   favoriteMovies = [{name: 'fvb', description:'dfvgbh'}]
 
   constructor(private sharingService: SharingService) { }
-
+  
 
   ngOnInit() {
     this.sharingService.addChat$.subscribe(
@@ -114,5 +119,14 @@ export class IconsComponent implements OnInit {
     this.isFeedback = false;
     this.isDelete = false;
     this.isInitialLanding = true;
+  }
+
+  readMesg(text: string) {
+    readText(text);
+  }
+
+  stopRead() {
+    // window.speechSynthesis.pause();
+    window.speechSynthesis.cancel();
   }
 }

@@ -18,142 +18,150 @@
             </a>
           </div>
           <div class="row card-description-text">
-            <div class="col-11 sub-card">
-              <h3 class="color-white"><i class="tim-icons icon-bullet-list-67 mr-3"> </i>User Guide</h3>
-              <div>
-                <div *ngIf="isInitialLanding">
-                  <span class=" title row card-description-text">
-                    <h4 class="color-white">Main Functionalaties</h4>
-                  </span>
-                  <ul>
-                    <li class="mouse-pointer color-white" (click)="showUserGuideData('newCl')">Create new clarification:
-                    </li>
-                    <li class="mouse-pointer color-white" (click)="showUserGuideData('continueEx')">Continue
-                      existing clarification:</li>
-                    <li class="mouse-pointer color-white" (click)="showUserGuideData('rename')">Rename the title of a
-                      particular clarification for better reference:</li>
-                    <li class="mouse-pointer color-white" (click)="showUserGuideData('feedback')">Give feedback on the
-                      given answer (Whether you satisfied or not):</li>
-                    <li class="mouse-pointer color-white" (click)="showUserGuideData('delete')">Delete existing
-                      clarification conversation:</li>
-                  </ul>
+            <div class="col-8 col-offset-2 sub-card">
+              <div class="row col-12">
+                <div class="col-3">
+                  <h3 class="color-white mt-5 pt-3"><i class="tim-icons icon-bullet-list-67 mr-3"> </i>User Guide</h3>
                 </div>
-                <div *ngIf="isNewClStarted">
-                  <span class=" title row card-description-text">
-                    <h4 class="color-white">Create new clarification:</h4>
-                  </span>
-                  <div>
+                <div class="col-9">
+                  <div *ngIf="isInitialLanding">
+                    <span class=" title row">
+                      <h4 class="color-white">Main Functionalaties</h4>
+                    </span>
                     <ul>
-                      <li>
-                        <span class="color-white">
-                          Click on New Clarification button on the sidebar top left
-                        </span>
+                      <li class="color-white"><span class="mouse-pointer" (click)="showUserGuideData('newCl')">Create new clarification:</span>
                       </li>
-                      <li>
-                        <span class="color-white">
-                          Then type in the text area provided in and press enter or click send icon
-                        </span>
-                      </li>
-                      <li>
-                        <span class="color-white">
-                          Alternative Option: Type in the text area provided in and press enter or click send icon where
-                          User Guide provided
-                        </span>
-                      </li>
+                      <li class="color-white">
+                        <span class="mouse-pointer" (click)="showUserGuideData('continueEx')">Continue existing clarification:</span></li>
+                      <li class="color-white">
+                        <span class="mouse-pointer" (click)="showUserGuideData('rename')">Rename the title of a
+                        particular clarification for better reference:</span></li>
+                      <li class="color-white">
+                        <span class="mouse-pointer" (click)="showUserGuideData('feedback')">Give feedback on the
+                        given answer (Whether you satisfied or not):</span></li>
+                      <li class="color-white">
+                        <span class="mouse-pointer" (click)="showUserGuideData('delete')">Delete existing
+                        clarification conversation:</span></li>
                     </ul>
                   </div>
-                </div>
-                <div *ngIf="isContinueExistingCl">
-                  <span class=" title row card-description-text">
-                    <h4 class="color-white">Continue existing clarification:</h4>
-                  </span>
-                  <div>
-                    <ul>
-                      <li>
-                        <span class="color-white">
-                          Click on any existing clarification, then the older conversation will load on left side.
-                        </span>
-                      </li>
-                      <li>
-                        <span class="color-white">
-                          Type in the text area provided in and press enter or click send icon to continue on the same.
-                        </span>
-                      </li>
-                    </ul>
+                  <div *ngIf="isNewClStarted">
+                    <span class=" title row  ">
+                      <h4 class="color-white">Create new clarification:</h4>
+                    </span>
+                    <div>
+                      <ul>
+                        <li>
+                          <span class="color-white">
+                            Click on New Clarification button on the sidebar top left
+                          </span>
+                        </li>
+                        <li>
+                          <span class="color-white">
+                            Then type in the text area provided in and press enter or click send icon
+                          </span>
+                        </li>
+                        <li>
+                          <span class="color-white">
+                            Alternative Option: Type in the text area provided in and press enter or click send icon where
+                            User Guide provided
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
-                </div>
-                <div *ngIf="isRename">
-                  <span class=" title row card-description-text">
-                    <h4 class="color-white">Rename the title of a particular clarification for better reference:</h4>
-                  </span>
-                  <div>
-                    <ul>
-                      <li>
-                        <span class="color-white">
-                          Click on any existing clarification, Rename icon will appear.
-                        </span>
-                      </li>
-                      <li>
-                        <span class="color-white">
-                          Type in to rename the previous title of the clarification.
-                        </span>
-                      </li>
-                    </ul>
+                  <div *ngIf="isContinueExistingCl">
+                    <span class=" title row  ">
+                      <h4 class="color-white">Continue existing clarification:</h4>
+                    </span>
+                    <div>
+                      <ul>
+                        <li>
+                          <span class="color-white">
+                            Click on any existing clarification, then the older conversation will load on left side.
+                          </span>
+                        </li>
+                        <li>
+                          <span class="color-white">
+                            Type in the text area provided in and press enter or click send icon to continue on the same.
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
-                </div>
-                <div *ngIf="isFeedback">
-                  <span class=" title row card-description-text">
-                    <h4 class="color-white">Give feedback on the given answer (Whether you satisfied or not):</h4>
-                  </span>
-                  <div>
-                    <ul>
-                      <li>
-                        <span class="color-white">
-                          Once you started a new, or continue on existing clarification by clicking send button,
-                          for the provided answer you can give feedback by clicking Send Feedback button.
-                        </span>
-                      </li>
-                      <li>
-                        <span class="color-white">
-                          Click Yes, if you satisfied with the provided answer. Then the continuation of the
-                          clarification will be terminated.
-                        </span>
-                      </li>
-                      <li>
-                        <span class="color-white">
-                          Click No, if you satisfied with the provided answer. Add your suggetions in the text box
-                          provided and click Submit.
-                          Then the continuation of the clarification will be terminated.
-                        </span>
-                      </li>
-                    </ul>
+                  <div *ngIf="isRename">
+                    <span class=" title row  ">
+                      <h4 class="color-white">Rename the title of a particular clarification for better reference:</h4>
+                    </span>
+                    <div>
+                      <ul>
+                        <li>
+                          <span class="color-white">
+                            Click on any existing clarification, Rename icon will appear.
+                          </span>
+                        </li>
+                        <li>
+                          <span class="color-white">
+                            Type in to rename the previous title of the clarification.
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
-                </div>
-                <div *ngIf="isDelete">
-                  <span class=" title row card-description-text">
-                    <h4 class="color-white">Delete existing clarification conversation:</h4>
-                  </span>
-                  <div>
-                    <ul>
-                      <li>
-                        <span class="color-white">
-                          Click on any existing clarification, Delete icon will appear in the right end.
-                        </span>
-                      </li>
-                      <li>
-                        <span class="color-white">
-                          Click it to delete the whole clarification. (Note: Deleting will be permenant).
-                        </span>
-                      </li>
-                    </ul>
+                  <div *ngIf="isFeedback">
+                    <span class=" title row  ">
+                      <h4 class="color-white">Give feedback on the given answer (Whether you satisfied or not):</h4>
+                    </span>
+                    <div>
+                      <ul>
+                        <li>
+                          <span class="color-white">
+                            Once you started a new, or continue on existing clarification by clicking send button,
+                            for the provided answer you can give feedback by clicking Send Feedback button.
+                          </span>
+                        </li>
+                        <li>
+                          <span class="color-white">
+                            Click Yes, if you satisfied with the provided answer. Then the continuation of the
+                            clarification will be terminated.
+                          </span>
+                        </li>
+                        <li>
+                          <span class="color-white">
+                            Click No, if you satisfied with the provided answer. Add your suggetions in the text box
+                            provided and click Submit.
+                            Then the continuation of the clarification will be terminated.
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
-                </div>
-                <div *ngIf="!isInitialLanding">
-                  <button class="back_btn" type="button" (click)="back()">
-                    <i class="fas fa-arrow-left"></i>
-                  </button>
+                  <div *ngIf="isDelete">
+                    <span class=" title row  ">
+                      <h4 class="color-white">Delete existing clarification conversation:</h4>
+                    </span>
+                    <div>
+                      <ul>
+                        <li>
+                          <span class="color-white">
+                            Click on any existing clarification, Delete icon will appear in the right end.
+                          </span>
+                        </li>
+                        <li>
+                          <span class="color-white">
+                            Click it to delete the whole clarification. (Note: Deleting will be permenant).
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div *ngIf="!isInitialLanding">
+                    <button class="back_btn" type="button" (click)="back()">
+                      <i class="fas fa-arrow-left"></i>
+                    </button>
+                  </div>
                 </div>
               </div>
+              
             </div>
             <!-- <div class="col-3 sub-card">
               <h3 class="card-description-text"><i class=" tim-icons icon-bulb-63 mr-3"> </i>Capebilities</h3>
@@ -207,6 +215,8 @@
               <div class="received_msg">
                 <div class="received_withd_msg">
                   <p>{{ message }}</p>
+                  <i class="fa fa-volume-up speaker" aria-hidden="true" (click)="readMesg(message)"></i>
+                  <i class="fa fa-volume-off speaker" aria-hidden="true" (click)="stopRead()"></i>
                 </div>
               </div>
             </div>
