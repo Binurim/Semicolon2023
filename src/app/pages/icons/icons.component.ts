@@ -20,8 +20,6 @@ export class IconsComponent implements OnInit {
   isInitialLanding: boolean = true;
   messages: [] = [];
   chatstarted: boolean = false;
-  movies = [{name: 'asd', description:'sdfgh'}]
-  favoriteMovies = [{name: 'fvb', description:'dfvgbh'}]
 
   constructor(private sharingService: SharingService) { }
   
@@ -53,7 +51,6 @@ export class IconsComponent implements OnInit {
   }
 
   showUserGuideData(data: string) {
-    console.log('data', data);
     switch (data) {
       case 'newCl': {
         this.isNewClStarted = true;
@@ -126,7 +123,6 @@ export class IconsComponent implements OnInit {
   }
 
   stopRead() {
-    // window.speechSynthesis.pause();
     window.speechSynthesis.cancel();
   }
 }

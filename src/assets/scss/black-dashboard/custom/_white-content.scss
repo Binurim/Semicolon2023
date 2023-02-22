@@ -16,6 +16,10 @@
       }
   }
 
+  .sub-card {
+    background-color: honeydew !important;
+  }
+
   .navbar.navbar-transparent .navbar-minimize button i{
     color: $black-states;
   }
@@ -32,9 +36,25 @@
 
   .sidebar{
     box-shadow: 0 2px 22px 0 rgba(0,0,0,.1), 0 4px 20px 0 rgba(0,0,0,.15);
-    span{
-      color: #1d253b;
-      font-weight: bold;
+    background: rgba(78, 225, 90, 0.6) none repeat scroll 0 0;;
+    .logo .simple-text {
+      color:#1d253b;
+      font-weight: 800;
+    }
+    .logo:after, .off-canvas-sidebar .logo:after {
+      background:#1d253b !important;
+    }
+    .sidebar-wrapper {
+      li, div, i {
+        color: #1d253b !important;
+      }
+    }
+  }
+
+  .messaging {
+    // background-color: honeydew !important;
+    p {
+      color:#1d253b !important;
     }
   }
 

@@ -27,7 +27,7 @@
 }
 .sidebar, .off-canvas-sidebar{
   &, &[data="red"]{
-    @include linear-gradient(rgba(225, 78, 202, 0), rgba(225, 78, 202, 0.6));
+    @include linear-gradient(rgba(78, 225, 90, 0), rgba(78, 225, 90, 0.6));
   }
   &[data="primary"]{
     @include linear-gradient($primary-states, $primary);
