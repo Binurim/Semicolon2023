@@ -105,10 +105,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.newChatStarted ? localStorage.setItem('newChatStarted', 'true') : localStorage.setItem('newChatStarted', 'false');
     localStorage.setItem('chatId', clarificationId);
     this.existingChatId = clarificationId;
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-    this.subscription = this.sharingService.getAddChatTrue().subscribe();
     this.utilityService.getSelectedClarificationData(clarificationId);
   }
 

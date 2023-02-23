@@ -5,6 +5,12 @@ let speech = new SpeechSynthesisUtterance();
 
 function readText(txt){ speech.text = txt; speech.rate =1; speech.volume = 1; speech.pitch =1; speech.lang="en-US"; window.speechSynthesis.speak(speech); }
 
+export interface Clarification {
+  request: string;
+  response: string;
+  timestamp?: number;
+}
+
 @Component({
   selector: 'app-clarifications',
   templateUrl: './clarifications.component.html',
@@ -18,7 +24,7 @@ export class ClarificationsComponent implements OnInit {
   isFeedback: boolean = false;
   isDelete: boolean = false;
   isInitialLanding: boolean = true;
-  messages: [] = [];
+  clarificationArray: Clarification[] = [];
   chatstarted: boolean = false;
 
   constructor(private sharingService: SharingService) { }
@@ -44,10 +50,7 @@ export class ClarificationsComponent implements OnInit {
   }
 
   createChat() {
-    const arr = JSON.parse(localStorage.getItem('chats'));
-    if (arr) {
-      this.messages = arr[Number(localStorage.getItem('chatId')) - 1]?.sendMsgs;
-    }
+    this.clarificationArray = this.sharingService.getSelectedClarificationArray();
   }
 
   showUserGuideData(data: string) {

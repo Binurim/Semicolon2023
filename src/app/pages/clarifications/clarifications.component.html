@@ -202,11 +202,11 @@
     <div class="inbox_msg">
       <div class="mesgs">
         <div class="msg_history">
-          <li class="message" *ngFor="let message of messages">
+          <li class="message" *ngFor="let clarification of clarificationArray">
             <div class="outgoing_msg">
               <div class="sent_msg">
                 <span>
-                  <p>{{ message }}</p>
+                  <p>{{ clarification?.request }}</p>
                 </span>
               </div>
               <div class="outgoing_msg_img">
@@ -214,14 +214,14 @@
               </div>
             </div>
 
-            <div *ngIf="message" class="incoming_msg">
+            <div class="incoming_msg">
               <div class="incoming_msg_img">
                 <img src="assets/img/anime3.png" alt="User avatar" />
               </div>
               <div class="received_msg">
                 <div class="received_withd_msg">
-                  <p>{{ message }}</p>
-                  <i class="fa fa-volume-up speaker" aria-hidden="true" (click)="readMesg(message)"></i>
+                  <p>{{ clarification?.response }}</p>
+                  <i class="fa fa-volume-up speaker" aria-hidden="true" (click)="readMesg(clarification?.response)"></i>
                   <i class="fa fa-volume-off speaker" aria-hidden="true" (click)="stopRead()"></i>
                 </div>
               </div>

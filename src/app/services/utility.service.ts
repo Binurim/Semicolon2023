@@ -6,6 +6,7 @@ import { NotificationService } from './notification.service';
 @Injectable()
 export class UtilityService {
     clarificationList: any[] = [];
+    subscription: any;
 
     constructor(
         private sharingService: SharingService,
@@ -35,12 +36,22 @@ export class UtilityService {
     getSelectedClarificationData(clarificationId) {
         let conversationArray = [];
         this.clarificationService.getSelectedClarification(clarificationId)
-            .then((data) => {
-                if (data?.status === 'success' && data?.clarificationData?.conversation?.length > 0) {
-                    conversationArray = data.clarificationData.conversations;
+            .then((res) => {
+                if (res?.status === 'success' && res?.data.clarificationData?.conversations?.length > 0) {
+                    conversationArray = res?.data.clarificationData.conversations;
+                    this.sharingService.setSelectedClarificationArray(conversationArray);
+                    
+                    if (this.subscription) {
+                        this.subscription.unsubscribe();
+                    }
+                    this.subscription = this.sharingService.getAddChatTrue().subscribe();
+                } else {             
+                    if (this.subscription) {
+                        this.subscription.unsubscribe();
+                    }
+                    this.subscription = this.sharingService.getAddChatTrue().subscribe();
                 }
             });
-        this.sharingService.setSelectedClarificationConversation(conversationArray);
     }
 
     editExistingclarificationData(clarificationId: string, title: string) {

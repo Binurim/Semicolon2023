@@ -33,11 +33,11 @@ export class SharingService {
     return this.addChat$;
   }
 
-  setSelectedClarificationConversation(val: any) {
+  setSelectedClarificationArray(val: any) {
     this.conversationArray = val;
   }
 
-  getSelectedClarificationConversation() {
+  getSelectedClarificationArray() {
     return this.conversationArray;
   }
 
