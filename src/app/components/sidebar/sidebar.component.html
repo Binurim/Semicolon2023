@@ -1,8 +1,8 @@
 <div class="logo">
-  <a href="#/clarification" class="simple-text logo-mini" (click)="clickNewChat()">
+  <a href="#/clarification" class="simple-text logo-mini" (click)="clickNewClarification()">
     <i class=" tim-icons icon-simple-add"> </i>
   </a>
-  <a href="#/clarification" class="simple-text logo-normal" (click)="clickNewChat()">
+  <a href="#/clarification" class="simple-text logo-normal" (click)="clickNewClarification()">
     New Clarification 
   </a>
 </div>
@@ -19,7 +19,7 @@
             <span title="{{ menuItem?.title }}">{{ menuItem?.title }}</span>
         </div>
         <div *ngIf="menuItem.id == existingChatId" class="col-1">
-          <i class=" delete tim-icons icon-pencil" (click)="editExistingClarificationTitle(menuItem.id, menuItem.title)"> </i>
+          <i title="Edit Clarification" class=" delete tim-icons icon-pencil" (click)="editExistingClarificationTitle(menuItem.id, menuItem.title)"> </i>
         </div>
         <div *ngIf="menuItem.id == existingChatId" class="col-1">
           <i title="Delete Clarification" class=" delete tim-icons icon-trash-simple" (click)="deleteExistingClarification(menuItem.id)"> </i>

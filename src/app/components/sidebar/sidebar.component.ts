@@ -2,6 +2,8 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { SharingService } from "src/app/services/sharing.service";
 import { ClarificationService } from '../../services/clarification.service';
 import { Router } from "@angular/router";
+import { NotificationService } from '../../services/notification.service';
+import { UtilityService } from '../../services/utility.service';
 
 declare interface RouteInfo {
   id: number;
@@ -20,8 +22,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
   newChatStarted: boolean = true;
   existingChatId: string;
   clarificationList: any[] = [];
-  constructor(private sharingService: SharingService,
+  constructor(
+    private sharingService: SharingService,
     private clarificationService: ClarificationService,
+    private notifyService: NotificationService,
+    private utilityService: UtilityService,
     private router: Router) {
   }
 
@@ -39,30 +44,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.newChatStarted ? localStorage.setItem('newChatStarted', 'true') : localStorage.setItem('newChatStarted', 'false');
   }
 
-  async getClarificationListData() {
-    this.clarificationList = [];
-    await this.clarificationService.getClarificationList()
-      .then((response) => {
-        if (response?.status === 'success' && response?.data?.clarificationList?.length > 0) {
-          const clarificationList = response.data.clarificationList;
-          clarificationList.forEach(element => {
-            if (element && element['_id']) {
-              const menuItemObj = {
-                menuId: element['_id'],
-                menuTitle: element.title,
-              }
-              this.clarificationList.push(menuItemObj);
-            }
-          });
-        }
-      });
-    return this.clarificationList;
-  }
-
   async getMenuItem() {
     this.menuItems = [];
-    // const arr = JSON.parse(localStorage.getItem('chats'));
-    const menuItemsData = await this.getClarificationListData();
+    const menuItemsData = await this.utilityService.getClarificationListData();
     if (menuItemsData?.length > 0) {
       menuItemsData?.forEach(data => {
         if (data) {
@@ -80,16 +64,39 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
   }
 
-  clickNewChat() {
+  async clickNewClarification() {
     this.newChatStarted = true;
     this.newChatStarted ? localStorage.setItem('newChatStarted', 'true') : localStorage.setItem('newChatStarted', 'false');
-    localStorage.setItem('chatId', '');
-    this.existingChatId = '';
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-    this.subscription = this.sharingService.getAddChatFalse().subscribe();
+    await this.addNewClarificationToTheList();
+    // localStorage.setItem('chatId', '');
+    // this.existingChatId = '';
+    // if (this.subscription) {
+    //   this.subscription.unsubscribe();
+    // }
+    // this.subscription = this.sharingService.getAddChatFalse().subscribe();
 
+  }
+
+  addNewClarificationToTheList() {
+    const newClarificationObj = { title: "New Clarification" };
+    let clarificationId = '';
+    this.clarificationService.createNewClarification(newClarificationObj)
+      .then((res) => {
+        if (res?.status === "success" && res?.data?.newClarification) {
+          clarificationId = res.data.newClarification['_id'];
+        }
+        this.router.navigate([`clarification/${clarificationId}`]);
+        this.sharingService.setIsNewClarificationClicked(true);
+        this.sharingService.setClarificationId(clarificationId);
+        this.getMenuItem();
+      })
+      .catch((err) => {
+        this.notifyService.showError("Error Occured while adding new clarification title !!", "Notification");
+        this.sharingService.setIsNewClarificationClicked(false);
+        this.sharingService.setClarificationId('');
+        console.log('err', err);
+      });
+    this.newChatStarted = false;
   }
 
   clickExistingClarification(clarificationId: string) {
@@ -101,56 +108,18 @@ export class SidebarComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
     this.subscription = this.sharingService.getAddChatTrue().subscribe();
-    this.getSelectedClarificationData(clarificationId);
+    this.utilityService.getSelectedClarificationData(clarificationId);
   }
 
-  getSelectedClarificationData(clarificationId) {
-    let conversationArray = [];
-    this.clarificationService.getSelectedClarification(clarificationId)
-      .then((data) => {
-        if (data?.status === 'success' && data?.clarificationData?.conversation?.length > 0) {
-          conversationArray = data.clarificationData.conversations;
-        }
-      });
-    this.sharingService.setSelectedClarificationConversation(conversationArray);
+  async editExistingClarificationTitle(clarificationId: string, title: string) {
+    this.utilityService.editExistingclarificationData(clarificationId, title);
+    await this.getMenuItem();
   }
 
-  editExistingClarificationTitle(clarificationId: string, title: string) {
-    this.editExistingclarificationData(clarificationId, title);
-    this.getMenuItem();
-  }
-
-  deleteExistingClarification(clarificationId: string) {
-    // const arr = JSON.parse(localStorage.getItem('chats'));
-    // const newarr = arr?.filter((item) => item.id !== id);
-    // newarr?.forEach((element, index) => {
-    //   if (element?.id) {
-    //     delete element.id;
-    //     element.id = index + 1;
-    //   }
-    // });
-    // localStorage.setItem('chats', JSON.stringify(newarr));
-    this.deleteExistingclarificationData(clarificationId);
-    this.getMenuItem();
+  async deleteExistingClarification(clarificationId: string) {
+    this.utilityService.deleteExistingclarificationData(clarificationId);
+    await this.getMenuItem();
     this.router.navigate(['clarification'])
-  }
-
-  editExistingclarificationData(clarificationId: string, title: string) {
-    this.clarificationService.updateClarificationTitle(clarificationId, title)
-      .then((res) => {
-      })
-      .catch((err) => {
-        console.log('err', err);
-      });
-  }
-
-  deleteExistingclarificationData(clarificationId: string) {
-    this.clarificationService.deleteClarification(clarificationId)
-      .then((res) => {
-      })
-      .catch((err) => {
-        console.log('err', err);
-      });
   }
 
   ngOnDestroy() {

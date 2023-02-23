@@ -4,22 +4,24 @@ import { BehaviorSubject, Observable } from 'rxjs';
 @Injectable()
 
 export class SharingService {
-    private addChatSource = new BehaviorSubject<string>('false');
-    public addChat$ = this.addChatSource.asObservable();
-    conversationArray: any[] = [];
+  private addChatSource = new BehaviorSubject<string>('false');
+  public addChat$ = this.addChatSource.asObservable();
+  isNewClarificationClicked: boolean = false;
+  clarificationId: string = '';
+  conversationArray: any[] = [];
 
   constructor() {
     this.addChat$.subscribe(status => window.localStorage.setItem('addChat', status));
   }
 
-//   getAddChat(): Observable<string> {
-//     let chatStatus = window.localStorage.getItem('addChat');
-//     chatStatus = (chatStatus === 'false' || chatStatus == null) ? 'true' : 'false';
-//     this.addChatSource.next(chatStatus);
-//     return this.addChat$;
-//   }
+  //   getAddChat(): Observable<string> {
+  //     let chatStatus = window.localStorage.getItem('addChat');
+  //     chatStatus = (chatStatus === 'false' || chatStatus == null) ? 'true' : 'false';
+  //     this.addChatSource.next(chatStatus);
+  //     return this.addChat$;
+  //   }
 
-getAddChatTrue(): Observable<string> {
+  getAddChatTrue(): Observable<string> {
     let chatStatus = 'true';
     this.addChatSource.next(chatStatus);
     return this.addChat$;
@@ -31,7 +33,7 @@ getAddChatTrue(): Observable<string> {
     return this.addChat$;
   }
 
-  setSelectedClarificationConversation(val:any) {
+  setSelectedClarificationConversation(val: any) {
     this.conversationArray = val;
   }
 
@@ -39,5 +41,20 @@ getAddChatTrue(): Observable<string> {
     return this.conversationArray;
   }
 
-  
+  setIsNewClarificationClicked(val: any) {
+    this.isNewClarificationClicked = val;
+  }
+
+  getIsNewClarificationClicked() {
+    return this.isNewClarificationClicked;
+  }
+
+  setClarificationId(val: any) {
+    this.clarificationId = val;
+  }
+
+  getClarificationId() {
+    return this.clarificationId;
+  }
+
 }
