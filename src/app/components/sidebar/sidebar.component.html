@@ -13,19 +13,22 @@
       *ngFor="let menuItem of menuItems"
       class="{{ menuItem.class }} nav-item"
     >
-    <a [routerLink]="[menuItem.path]" (click)="clickExistingClarification(menuItem.id)">
+    <a [routerLink]="[menuItem.path]" (click)="clickExistingClarification(menuItem.id, menuItem.title)">
       <div class="row col-12">
         <div [ngClass]="menuItem?.id != existingChatId ? 'col-12 menuItem' : 'col-6 menuItem'">
             <span *ngIf="!isEditEnable  || (menuItem.id !== existingChatId)" title="{{ menuItem?.title }}">{{ menuItem?.title }}</span>
-            <input id="clar" class="clarificationTitle" *ngIf="isEditEnable && (menuItem.id == existingChatId)" #editTitleInput
-              ngModel (ngModelChange)="onChange($event, editTitleInput)" />
+            <input id="clar" class="clarificationTitle" *ngIf="isEditEnable && (menuItem.id == existingChatId)" [(ngModel)]="menuItemTitle"
+             />
         </div>
         <div *ngIf="menuItem.id == existingChatId" class="col-3">
-          <i *ngIf="!isEditEnable  || (menuItem.id !== existingChatId)" title="Edit Clarification" class="delete tim-icons icon-pencil" (click)="onEdit()"> </i>
-          <i *ngIf="isEditEnable && (menuItem.id == existingChatId)" class=" delete tim-icons icon-check-2" (click)="editExistingClarificationTitle(menuItem.id, editedTitle)"></i>
+          <i *ngIf="!isEditEnable && !isDeleteEnable" title="Edit Clarification" class="delete tim-icons icon-pencil" (click)="onEdit()"> </i>
+          <i *ngIf="isEditEnable" class=" delete tim-icons icon-check-2" (click)="editExistingClarificationTitle(menuItem.id, menuItemTitle)"></i>
+          <i *ngIf="isDeleteEnable" class=" delete tim-icons icon-check-2" (click)="deleteExistingClarification(menuItem.id)"></i>
         </div>
         <div *ngIf="menuItem.id == existingChatId" class="col-3">
-          <i title="Delete Clarification" class=" delete tim-icons icon-trash-simple" (click)="deleteExistingClarification(menuItem.id)"> </i>
+          <i *ngIf="!isEditEnable  && !isDeleteEnable" title="Delete Clarification" class=" delete tim-icons icon-trash-simple" (click)="onDelete()"> </i>
+          <i *ngIf="isEditEnable" class=" tim-icons icon-simple-remove" (click)="cancelEdit()"></i>
+          <i *ngIf="isDeleteEnable" class=" tim-icons icon-simple-remove" (click)="cancelDelete()"></i>
         </div>
       </div>
     </a>
