@@ -82,7 +82,7 @@ export class ClarificationService {
   public updateClarificationTitle(clarificationId: string, data: any, limit: number = 20, offset: number = 1) {
     const url = this.baseUrl + `/api/clarification/${clarificationId}`;
     const requestBody = {};
-    requestBody['title'] = data['title'];
+    requestBody['title'] = data;
     return this.http
       .patch(url, JSON.stringify(requestBody), this.options)
       .toPromise()

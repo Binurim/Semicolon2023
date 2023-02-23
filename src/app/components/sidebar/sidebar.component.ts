@@ -22,6 +22,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   newChatStarted: boolean = true;
   existingChatId: string;
   clarificationList: any[] = [];
+  public isEditEnable: boolean = false;
   constructor(
     private sharingService: SharingService,
     private clarificationService: ClarificationService,
@@ -111,9 +112,21 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.utilityService.getSelectedClarificationData(clarificationId);
   }
 
+  public editedTitle: string;
+
+  public onChange(value: string, inputElem: HTMLInputElement) {
+    this.editedTitle = value === '' ? '' : value;
+    inputElem.value = this.editedTitle;
+  }
+
+  onEdit() {
+    this.isEditEnable =!this.isEditEnable;
+  }
+
   async editExistingClarificationTitle(clarificationId: string, title: string) {
     this.utilityService.editExistingclarificationData(clarificationId, title);
     await this.getMenuItem();
+    this.isEditEnable = false;
   }
 
   async deleteExistingClarification(clarificationId: string) {

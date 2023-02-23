@@ -16,12 +16,15 @@
     <a [routerLink]="[menuItem.path]" (click)="clickExistingClarification(menuItem.id)">
       <div class="row col-12">
         <div [ngClass]="menuItem?.id != existingChatId ? 'col-12 menuItem' : 'col-6 menuItem'">
-            <span title="{{ menuItem?.title }}">{{ menuItem?.title }}</span>
+            <span *ngIf="!isEditEnable  || (menuItem.id !== existingChatId)" title="{{ menuItem?.title }}">{{ menuItem?.title }}</span>
+            <input id="clar" class="clarificationTitle" *ngIf="isEditEnable && (menuItem.id == existingChatId)" #editTitleInput
+              ngModel (ngModelChange)="onChange($event, editTitleInput)" />
         </div>
-        <div *ngIf="menuItem.id == existingChatId" class="col-1">
-          <i title="Edit Clarification" class=" delete tim-icons icon-pencil" (click)="editExistingClarificationTitle(menuItem.id, menuItem.title)"> </i>
+        <div *ngIf="menuItem.id == existingChatId" class="col-3">
+          <i *ngIf="!isEditEnable  || (menuItem.id !== existingChatId)" title="Edit Clarification" class="delete tim-icons icon-pencil" (click)="onEdit()"> </i>
+          <i *ngIf="isEditEnable && (menuItem.id == existingChatId)" class=" delete tim-icons icon-check-2" (click)="editExistingClarificationTitle(menuItem.id, editedTitle)"></i>
         </div>
-        <div *ngIf="menuItem.id == existingChatId" class="col-1">
+        <div *ngIf="menuItem.id == existingChatId" class="col-3">
           <i title="Delete Clarification" class=" delete tim-icons icon-trash-simple" (click)="deleteExistingClarification(menuItem.id)"> </i>
         </div>
       </div>
