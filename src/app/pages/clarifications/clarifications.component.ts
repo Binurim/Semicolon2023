@@ -26,6 +26,7 @@ export class ClarificationsComponent implements OnInit {
   isInitialLanding: boolean = true;
   clarificationArray: Clarification[] = [];
   chatstarted: boolean = false;
+  is_satisfied: boolean;
 
   constructor(private sharingService: SharingService) { }
   
@@ -43,14 +44,17 @@ export class ClarificationsComponent implements OnInit {
             this.isDelete = false;
             this.isInitialLanding = true;
           }
-          this.createChat();
         }
       }
     );
+
+    // var messageBody = document.querySelector('#messageBody');
+    // messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
   }
 
-  createChat() {
+  get clarificationsArray() {
     this.clarificationArray = this.sharingService.getSelectedClarificationArray();
+    return this.clarificationArray;
   }
 
   showUserGuideData(data: string) {
@@ -127,5 +131,9 @@ export class ClarificationsComponent implements OnInit {
 
   stopRead() {
     window.speechSynthesis.cancel();
+  }
+
+  get isClarificationId() {
+    return this.sharingService.getClarificationId() != null;
   }
 }

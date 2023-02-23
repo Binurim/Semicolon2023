@@ -1,6 +1,6 @@
 <footer>
   <div *ngIf="showFeedbackButton" class="test-style">
-    <button class=" row  pt-3 feedback-styles"> <i class="tim-icons icon-tap-02"> </i><h5>Send Feedback</h5></button>
+    <button class=" row col-2 pt-3 feedback-styles"> <i class="mr-2 tim-icons icon-tap-02"> </i><h5>Send Feedback</h5></button>
   </div>
   <div class="type_msg">
     <form class="input_msg_write">
@@ -12,7 +12,7 @@
        [(ngModel)]="inputClarification"
        (keyup.enter)="sendMessage()"
       ></textarea>
-      <button class="msg_send_btn" type="button" (click)="sendMessage()">
+      <button class="msg_send_btn" type="button" (click)="sendFeedback()">
         <i class=" tim-icons icon-send"> </i>
       </button>
     </form>

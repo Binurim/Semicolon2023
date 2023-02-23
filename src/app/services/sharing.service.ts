@@ -5,10 +5,15 @@ import { BehaviorSubject, Observable } from 'rxjs';
 
 export class SharingService {
   private addChatSource = new BehaviorSubject<string>('false');
+  private addClarifications = new BehaviorSubject<any>([]);
+
   public addChat$ = this.addChatSource.asObservable();
+  public clarifications$ = this.addClarifications.asObservable();
+  
   isNewClarificationClicked: boolean = false;
   clarificationId: string = '';
   conversationArray: any[] = [];
+  chatStatus: boolean = true;
 
   constructor() {
     this.addChat$.subscribe(status => window.localStorage.setItem('addChat', status));

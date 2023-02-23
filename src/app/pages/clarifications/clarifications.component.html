@@ -1,4 +1,4 @@
-<div *ngIf="!chatstarted" class=" content">
+<div *ngIf="!isClarificationId || clarificationsArray == []" class=" content">
   <div class=" row">
     <div class=" col-md-12">
       <div class=" card card-user">
@@ -197,8 +197,8 @@
   </div>
 </div>
 
-<div *ngIf="chatstarted" class="msg_container">
-  <div class="messaging">
+<div *ngIf="isClarificationId && clarificationsArray != []" class="msg_container">
+  <div class="messaging" id="messageBody">
     <div class="inbox_msg">
       <div class="mesgs">
         <div class="msg_history">
@@ -255,6 +255,23 @@
                 </div>
               </div>
             </ng-template> -->
+          </li>
+          <li *ngIf="feedback" class="message">
+            <div class="incoming_msg">
+              <div class="incoming_msg_img">
+                <img src="assets/img/anime3.png" alt="User avatar" />
+              </div>
+              <div class="received_msg">
+                <div class="received_withd_msg">
+                  <div class="feedback_form">
+                    <h4>Give Your Feedback!</h4>
+                    <span>Are you satisfy with the given answer?</span>
+                    <input name="options" type="radio" [value]="1"  [(ngModel)]="is_satisfied" >
+                    <input name="options" type="radio" [value]="2" [(ngModel)]="is_satisfied" >
+                  </div>
+                </div>
+              </div>
+            </div>
           </li>
         </div>
       </div>

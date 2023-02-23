@@ -55,7 +55,7 @@ export class FooterComponent implements OnInit {
       //   this.subscription.unsubscribe();
       // }
       // this.subscription = this.sharingService.getAddChatTrue().subscribe();
-
+      this.sendClarification(this.sharingService.getClarificationId());
       if (this.sharingService.getIsNewClarificationClicked()) {
         this.sendClarification(this.sharingService.getClarificationId());
       } else {
@@ -103,4 +103,6 @@ export class FooterComponent implements OnInit {
   }
 
 
+  sendFeedback() {
+  }
 }

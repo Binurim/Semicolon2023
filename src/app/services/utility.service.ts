@@ -37,20 +37,10 @@ export class UtilityService {
         let conversationArray = [];
         this.clarificationService.getSelectedClarification(clarificationId)
             .then((res) => {
-                if (res?.status === 'success' && res?.data.clarificationData?.conversations?.length > 0) {
-                    conversationArray = res?.data.clarificationData.conversations;
+                if (res?.status === 'success') {
+                    conversationArray = res?.data?.clarificationData?.conversations;
                     this.sharingService.setSelectedClarificationArray(conversationArray);
-                    
-                    if (this.subscription) {
-                        this.subscription.unsubscribe();
-                    }
-                    this.subscription = this.sharingService.getAddChatTrue().subscribe();
-                } else {             
-                    if (this.subscription) {
-                        this.subscription.unsubscribe();
-                    }
-                    this.subscription = this.sharingService.getAddChatTrue().subscribe();
-                }
+                } 
             });
     }
 

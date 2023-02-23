@@ -29,6 +29,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
     private notifyService: NotificationService,
     private utilityService: UtilityService,
     private router: Router) {
+
+      this.router.events.subscribe(data=> {
+        this.sharingService.setClarificationId((window.location.href.toString().split('/'))[5]);
+      })
   }
 
   subscription: any;
@@ -69,12 +73,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.newChatStarted = true;
     this.newChatStarted ? localStorage.setItem('newChatStarted', 'true') : localStorage.setItem('newChatStarted', 'false');
     await this.addNewClarificationToTheList();
-    // localStorage.setItem('chatId', '');
-    // this.existingChatId = '';
-    // if (this.subscription) {
-    //   this.subscription.unsubscribe();
-    // }
-    // this.subscription = this.sharingService.getAddChatFalse().subscribe();
+
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+    this.subscription = this.sharingService.getAddChatFalse().subscribe();
 
   }
 
@@ -103,9 +106,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
   clickExistingClarification(clarificationId: string) {
     this.newChatStarted = false;
     this.newChatStarted ? localStorage.setItem('newChatStarted', 'true') : localStorage.setItem('newChatStarted', 'false');
-    localStorage.setItem('chatId', clarificationId);
+
     this.existingChatId = clarificationId;
     this.utilityService.getSelectedClarificationData(clarificationId);
+    
+    this.sharingService.setClarificationId(clarificationId);
   }
 
   public editedTitle: string;
