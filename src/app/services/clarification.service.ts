@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 @Injectable()
 export class ClarificationService {
+  readonly baseUrl = 'http://54.164.39.209:8081';
 
   options = {
     headers: new HttpHeaders({
@@ -12,7 +13,7 @@ export class ClarificationService {
   constructor(private http: HttpClient) { }
 
   public getClarificationList(): Promise<any> {
-    const url = 'http://localhost:3100/api/clarification';
+    const url = this.baseUrl + '/api/clarification';
     return this.http
       .get(url)
       .toPromise()
@@ -24,7 +25,7 @@ export class ClarificationService {
   }
 
   public getSelectedClarification(clarificationId: string) {
-    const url = `http://localhost:3100/api/clarification/${clarificationId}`;
+    const url = this.baseUrl + `/api/clarification/${clarificationId}`;
     return this.http
       .get(url, this.options)
       .toPromise()
@@ -35,11 +36,10 @@ export class ClarificationService {
       });
   }
 
-  public createNewClarification(data: any, limit: number = 20, offset: number = 1) {
-    const url = 'http://localhost:3100/api/clarification';
+  public createNewClarification(data: any) {
+    const url = this.baseUrl + '/api/clarification';
     const requestBody = {};
     requestBody['title'] = data['title'];
-    requestBody['status'] = data['send_msg'];
     return this.http
       .post(url, JSON.stringify(requestBody), this.options)
       .toPromise()
@@ -50,11 +50,11 @@ export class ClarificationService {
       });
   }
 
-  public addFeedback(clarificationId: string, data: any, limit: number = 20, offset: number = 1) {
-    const url = '';
+  public addFeedback(clarificationId: string, data: any) {
+    const url = this.baseUrl + `/api/clarification/feedback/${clarificationId}`;
     const requestBody = {};
     requestBody['isSatisfied'] = data['isSatisfied'];
-    requestBody['feedback_msg'] = data['feedback_msg'];
+    requestBody['reason'] = data['reason'];
     return this.http
       .patch(url, JSON.stringify(requestBody), this.options)
       .toPromise()
@@ -65,10 +65,10 @@ export class ClarificationService {
       });
   }
 
-  public updateExistingClarification(clarificationId: string, data: any, limit: number = 20, offset: number = 1) {
-    const url = '';
+  public updateExistingClarification(clarificationId: string, data: any) {
+    const url = this.baseUrl + `/api/clarification/${clarificationId}`;
     const requestBody = {};
-    requestBody['send_msg'] = data['send_msg'];
+    requestBody['request'] = data['request'];
     return this.http
       .patch(url, JSON.stringify(requestBody), this.options)
       .toPromise()
@@ -80,7 +80,7 @@ export class ClarificationService {
   }
 
   public updateClarificationTitle(clarificationId: string, data: any, limit: number = 20, offset: number = 1) {
-    const url = '';
+    const url = this.baseUrl + `/api/clarification/${clarificationId}`;
     const requestBody = {};
     requestBody['title'] = data['title'];
     return this.http
@@ -95,7 +95,7 @@ export class ClarificationService {
 
 
   public deleteClarification(clarificationId: string) {
-    const url = '';
+    const url = this.baseUrl + `/api/clarification/${clarificationId}`;
     return this.http
       .delete(url)
       .toPromise()
