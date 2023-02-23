@@ -22,7 +22,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
   newChatStarted: boolean = true;
   existingChatId: string;
   clarificationList: any[] = [];
-  public isEditEnable: boolean = false;
+  isEditEnable: boolean = false;
+  isDeleteEnable: boolean = false;
+  menuItemTitle: string = '';
   constructor(
     private sharingService: SharingService,
     private clarificationService: ClarificationService,
@@ -79,6 +81,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
     this.subscription = this.sharingService.getAddChatFalse().subscribe();
 
+    // localStorage.setItem('chatId', '');
+    // this.existingChatId = '';
+    // if (this.subscription) {
+    //   this.subscription.unsubscribe();
+    // }
+    // this.subscription = this.sharingService.getAddChatFalse().subscribe();
+    this.isEditEnable = false;
+    this.isDeleteEnable = false;
   }
 
   addNewClarificationToTheList() {
@@ -103,7 +113,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.newChatStarted = false;
   }
 
-  clickExistingClarification(clarificationId: string) {
+  clickExistingClarification(clarificationId: string, title: string) {
+     this.menuItemTitle = title;
     this.newChatStarted = false;
     this.newChatStarted ? localStorage.setItem('newChatStarted', 'true') : localStorage.setItem('newChatStarted', 'false');
 
@@ -113,15 +124,20 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.sharingService.setClarificationId(clarificationId);
   }
 
-  public editedTitle: string;
-
-  public onChange(value: string, inputElem: HTMLInputElement) {
-    this.editedTitle = value === '' ? '' : value;
-    inputElem.value = this.editedTitle;
+  onEdit() {
+    this.isEditEnable = true;
   }
 
-  onEdit() {
-    this.isEditEnable =!this.isEditEnable;
+  cancelEdit(){
+    this.isEditEnable = false;
+  }
+
+  onDelete() {
+    this.isDeleteEnable = true;
+  }
+
+  cancelDelete(){
+    this.isDeleteEnable = false;
   }
 
   async editExistingClarificationTitle(clarificationId: string, title: string) {
@@ -134,6 +150,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.utilityService.deleteExistingclarificationData(clarificationId);
     await this.getMenuItem();
     this.router.navigate(['clarification'])
+    this.isDeleteEnable = false;
   }
 
   ngOnDestroy() {
