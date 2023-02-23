@@ -6,6 +6,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class SharingService {
     private addChatSource = new BehaviorSubject<string>('false');
     public addChat$ = this.addChatSource.asObservable();
+    conversationArray: any[] = [];
 
   constructor() {
     this.addChat$.subscribe(status => window.localStorage.setItem('addChat', status));
@@ -28,6 +29,14 @@ getAddChatTrue(): Observable<string> {
     let chatStatus = 'false';
     this.addChatSource.next(chatStatus);
     return this.addChat$;
+  }
+
+  setSelectedClarificationConversation(val:any) {
+    this.conversationArray = val;
+  }
+
+  getSelectedClarificationConversation() {
+    return this.conversationArray;
   }
 
   

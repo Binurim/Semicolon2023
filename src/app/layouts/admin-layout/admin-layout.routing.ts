@@ -1,10 +1,11 @@
 import { Routes } from "@angular/router";
-import { IconsComponent } from "../../pages/icons/icons.component";
+import { ClarificationsComponent } from '../../pages/clarifications/clarifications.component';
+
 
 
 export const AdminLayoutRoutes: Routes = [
   {
-    path: "chat", component: IconsComponent,
+    path: "clarification", component: ClarificationsComponent,
     children: [
       {
         path: '',
@@ -13,7 +14,7 @@ export const AdminLayoutRoutes: Routes = [
       },
       {
         path: ':id',
-        component: IconsComponent
+        component: ClarificationsComponent
       }
     ]
   },

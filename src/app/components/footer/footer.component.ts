@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { SharingService } from "src/app/services/sharing.service";
-import { ChatService } from './../../services/chat.service';
+import { ClarificationService } from '../../services/clarification.service';
 
 @Component({
   selector: "app-footer",
@@ -16,7 +16,7 @@ export class FooterComponent implements OnInit {
   subscription: any;
   showFeedbackButton: boolean = false;
   public userInput: string;
-  constructor(private sharingDataSer: SharingService, public chatService: ChatService) {}
+  constructor(private sharingDataSer: SharingService, public clarificationService: ClarificationService) {}
 
   ngOnInit() {
   }
@@ -54,8 +54,4 @@ export class FooterComponent implements OnInit {
     }
   }
 
-  // sendMessage() {
-  //   this.chatService.sendMessage(this.userInput);
-  //   this.userInput = '';
-  // }
 }

@@ -1,8 +1,8 @@
 <div class="logo">
-  <a href="#/chat" class="simple-text logo-mini" (click)="clickNewChat()">
+  <a href="#/clarification" class="simple-text logo-mini" (click)="clickNewChat()">
     <i class=" tim-icons icon-simple-add"> </i>
   </a>
-  <a href="#/chat" class="simple-text logo-normal" (click)="clickNewChat()">
+  <a href="#/clarification" class="simple-text logo-normal" (click)="clickNewChat()">
     New Clarification 
   </a>
 </div>
@@ -13,16 +13,19 @@
       *ngFor="let menuItem of menuItems"
       class="{{ menuItem.class }} nav-item"
     >
-    <a [routerLink]="[menuItem.path]" (click)="clickExistingChat(menuItem.id)">
+    <a [routerLink]="[menuItem.path]" (click)="clickExistingClarification(menuItem.id)">
       <div class="row col-12">
         <div [ngClass]="menuItem?.id != existingChatId ? 'col-12 menuItem' : 'col-6 menuItem'">
           <span>{{ menuItem?.title }}</span>
+          <!-- <span class="tooltip">
+            <span class="tooltiptext">{{ menuItem?.title }}</span>
+          </span> -->
         </div>
         <div *ngIf="menuItem.id == existingChatId" class="col-1">
-          <i class=" delete tim-icons icon-pencil"> </i>
+          <i class=" delete tim-icons icon-pencil" (click)="editExistingClarificationTitle(menuItem.id, menuItem.title)"> </i>
         </div>
         <div *ngIf="menuItem.id == existingChatId" class="col-1">
-          <i class=" delete tim-icons icon-trash-simple" (click)="deleteExistingChat(menuItem.id)"> </i>
+          <i class=" delete tim-icons icon-trash-simple" (click)="deleteExistingClarification(menuItem.id)"> </i>
         </div>
       </div>
     </a>

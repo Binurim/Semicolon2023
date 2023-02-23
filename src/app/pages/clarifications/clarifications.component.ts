@@ -6,12 +6,12 @@ let speech = new SpeechSynthesisUtterance();
 function readText(txt){ speech.text = txt; speech.rate =1; speech.volume = 1; speech.pitch =1; speech.lang="en-US"; window.speechSynthesis.speak(speech); }
 
 @Component({
-  selector: 'app-icons',
-  templateUrl: './icons.component.html',
-  styleUrls: ["./icons.component.scss"]
+  selector: 'app-clarifications',
+  templateUrl: './clarifications.component.html',
+  styleUrls: ["./clarifications.component.scss"]
 })
 
-export class IconsComponent implements OnInit {
+export class ClarificationsComponent implements OnInit {
   isNewClStarted: boolean = false;
   isContinueExistingCl: boolean = false;
   isRename: boolean = false;
