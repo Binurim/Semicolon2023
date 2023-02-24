@@ -15,12 +15,11 @@ export class FooterComponent implements OnInit {
   chats: any[] = [];
   id: number = 0;
   subscription: any;
-  showFeedbackButton: boolean = false;
   clarificationId: string = '';
   public userInput: string;
   constructor(
     private router: Router,
-    private sharingService: SharingService,
+    public sharingService: SharingService,
     public clarificationService: ClarificationService,
     public notifyService: NotificationService) { }
 
@@ -28,40 +27,15 @@ export class FooterComponent implements OnInit {
   }
 
   async sendMessage() {
+    this.sharingService.setSendFeedbackBtnClicked(false);
     if (this.inputClarification.trim() === '') {
       return;
     }
     try {
-
-      // this.chats = JSON.parse(localStorage.getItem('chats'))? JSON.parse(localStorage.getItem('chats')): [];
-      // this.id = this.chats?.length + 1;
-      // if(localStorage.getItem('newChatStarted') == 'true') { 
-      //   this.showFeedbackButton = true;
-      //   this.chats.push({id: this.id, title: this.textMsg, sendMsgs: [this.textMsg]});
-      //   localStorage.setItem('chatId', this.id.toString());
-      //   this.id++;
-      // } else {
-      //   this.showFeedbackButton = true;
-      //   const chatId = Number(localStorage.getItem('chatId'));
-      //   const msgs = JSON.parse(localStorage.getItem('chats'))? (JSON.parse(localStorage.getItem('chats')))[chatId-1]?.sendMsgs: [];
-      //   msgs.push(this.textMsg);
-      //   this.chats[chatId-1].sendMsgs = msgs;
-      // }
-      // localStorage.setItem('chats', JSON.stringify(this.chats));
-      // localStorage.setItem('newChatStarted', 'false');
-      // this.textMsg = '';
-
-      // if (this.subscription) {
-      //   this.subscription.unsubscribe();
-      // }
-      // this.subscription = this.sharingService.getAddChatTrue().subscribe();
-      this.sendClarification(this.sharingService.getClarificationId());
-      if (this.sharingService.getIsNewClarificationClicked()) {
+      if(this.sharingService.getClarificationId()) {
         this.sendClarification(this.sharingService.getClarificationId());
       } else {
-        await this.addNewClarificationToTheList();
-        //id comes as empty.. need to check it-------------------------------
-        // this.sendClarification(this.sharingService.getClarificationId());
+        this.addNewClarificationToTheList();
       }
     } catch (err) {
       console.log(err);
@@ -70,15 +44,21 @@ export class FooterComponent implements OnInit {
 
   async addNewClarificationToTheList() {
     let clarificationId = '';
+    this.sharingService.setSendFeedbackBtnClicked(false);
+    this.sharingService.setFeedback({is_satisfied: null, reason: null});
     const newClarificationObj = { title: "New Clarification" };
+    this.sharingService.setSelectedClarificationArray([]);
+    this.sharingService.setFeedbackResponse(null);
     this.clarificationService.createNewClarification(newClarificationObj)
       .then((res) => {
         if (res?.status === "success" && res?.data?.newClarification) {
           clarificationId = res.data.newClarification['_id'];
+          this.router.navigate([`clarification/${clarificationId}`]);
+          this.sharingService.setIsNewClarificationClicked(false);
+          this.sharingService.setClarificationId(clarificationId);
+          this.sendClarification(this.sharingService.getClarificationId());
         }
-        this.router.navigate([`clarification/${clarificationId}`]);
-        this.sharingService.setIsNewClarificationClicked(false);
-        this.sharingService.setClarificationId(clarificationId);
+        
         //need to implement getMenuItem part for sidebar.
       })
       .catch((err) => {
@@ -91,9 +71,16 @@ export class FooterComponent implements OnInit {
 
   sendClarification(clarificationId: string) {
     const requestObj = { request: this.inputClarification };
+    let conversationArray = this.sharingService.getSelectedClarificationArray();
+    conversationArray.push(requestObj);
+    this.inputClarification = '';
     this.clarificationService.updateExistingClarification(clarificationId, requestObj)
       .then((res) => {
-        this.inputClarification = '';
+        if (res?.status === 'success') {
+          conversationArray.pop();
+          conversationArray.push(res?.data?.newConversationData);
+          this.sharingService.setSelectedClarificationArray(conversationArray);
+        } 
       })
       .catch((err) => {
         this.notifyService.showError("Error Occured while modifying the Clarification !!",
@@ -104,5 +91,7 @@ export class FooterComponent implements OnInit {
 
 
   sendFeedback() {
+    this.sharingService.setSendFeedbackBtnClicked(true);
+    this.sharingService.setFeedback({is_satisfied: null, reason: null});
   }
 }

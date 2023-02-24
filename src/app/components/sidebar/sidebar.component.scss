@@ -5,7 +5,6 @@
 }
 
 .delete {
-    margin-left: 10px;
     width: 15px;
     height: 15px;
 }
@@ -35,8 +34,22 @@
     visibility: visible;
   }
 
-  .clarificationTitle{
+  .clarification-title{
     background: transparent;
-    border-bottom: white;
+    border-bottom: 2px solid darkgray;
     color: white;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    outline: none;
+  }
+
+  .sidebar_menu {
+    margin: 10px 5px 0 15px;
+    padding: 10px 0;
+  }
+
+  .sidebar_menu_wrapper {
+    padding-right: 0;
+    margin-left: 0;
   }

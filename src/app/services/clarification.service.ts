@@ -53,7 +53,7 @@ export class ClarificationService {
   public addFeedback(clarificationId: string, data: any) {
     const url = this.baseUrl + `/api/clarification/feedback/${clarificationId}`;
     const requestBody = {};
-    requestBody['isSatisfied'] = data['isSatisfied'];
+    requestBody['is_satisfied'] = data['is_satisfied'];
     requestBody['reason'] = data['reason'];
     return this.http
       .patch(url, JSON.stringify(requestBody), this.options)
@@ -70,7 +70,7 @@ export class ClarificationService {
     const requestBody = {};
     requestBody['request'] = data['request'];
     return this.http
-      .patch(url, JSON.stringify(requestBody), this.options)
+      .post(url, JSON.stringify(requestBody), this.options)
       .toPromise()
       .then((res) => (res ? res : null))
       .catch((error) => {

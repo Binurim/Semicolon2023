@@ -1,15 +1,11 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Clarification, Feedback } from 'src/app/model/clarification.model';
 import { SharingService } from 'src/app/services/sharing.service';
+import { UtilityService } from 'src/app/services/utility.service';
 
 let speech = new SpeechSynthesisUtterance();
 
 function readText(txt){ speech.text = txt; speech.rate =1; speech.volume = 1; speech.pitch =1; speech.lang="en-US"; window.speechSynthesis.speak(speech); }
-
-export interface Clarification {
-  request: string;
-  response: string;
-  timestamp?: number;
-}
 
 @Component({
   selector: 'app-clarifications',
@@ -26,9 +22,10 @@ export class ClarificationsComponent implements OnInit {
   isInitialLanding: boolean = true;
   clarificationArray: Clarification[] = [];
   chatstarted: boolean = false;
-  is_satisfied: boolean;
+  is_satisfied: any;
+  reason: any;
 
-  constructor(private sharingService: SharingService) { }
+  constructor(public sharingService: SharingService, private utilityService: UtilityService) { }
   
 
   ngOnInit() {
@@ -47,14 +44,16 @@ export class ClarificationsComponent implements OnInit {
         }
       }
     );
-
-    // var messageBody = document.querySelector('#messageBody');
-    // messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
   }
 
-  get clarificationsArray() {
-    this.clarificationArray = this.sharingService.getSelectedClarificationArray();
-    return this.clarificationArray;
+  get isStaisfied() {
+    this.is_satisfied = this.sharingService.getFeedback()?.is_satisfied != undefined? this.sharingService.getFeedback()?.is_satisfied: null;
+    return this.is_satisfied;
+  }
+
+  get feedbackReason() {
+    this.reason = this.sharingService.getFeedback()?.reason;
+    return this.reason;
   }
 
   showUserGuideData(data: string) {
@@ -133,7 +132,25 @@ export class ClarificationsComponent implements OnInit {
     window.speechSynthesis.cancel();
   }
 
-  get isClarificationId() {
-    return this.sharingService.getClarificationId() != null;
+  sendFeedbackReason() {
+    let feedbackModel: Feedback;
+    if(this.is_satisfied) {
+      feedbackModel = {
+        is_satisfied: true,
+        reason: null
+      }
+    } else {
+      feedbackModel = {
+        is_satisfied: false,
+        reason: this.reason
+      }
+    }
+    this.utilityService.sendFeedback(this.sharingService.getClarificationId(), feedbackModel);
+  }
+
+  cancel() {
+    this.sharingService.setSendFeedbackBtnClicked(false);
+    this.is_satisfied = null;
+    this.reason = null;
   }
 }

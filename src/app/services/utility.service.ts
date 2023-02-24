@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { SharingService } from './sharing.service';
 import { ClarificationService } from './clarification.service';
 import { NotificationService } from './notification.service';
+import { Feedback } from '../model/clarification.model';
 
 @Injectable()
 export class UtilityService {
@@ -29,8 +30,8 @@ export class UtilityService {
                         }
                     });
                 }
+                this.sharingService.setClarificationList(this.clarificationList);
             });
-        return this.clarificationList;
     }
 
     getSelectedClarificationData(clarificationId) {
@@ -40,6 +41,8 @@ export class UtilityService {
                 if (res?.status === 'success') {
                     conversationArray = res?.data?.clarificationData?.conversations;
                     this.sharingService.setSelectedClarificationArray(conversationArray);
+                    this.sharingService.setFeedback(res?.data?.clarificationData?.feedback);
+                    this.sharingService.setClarificationTitle(res?.data?.clarificationData?.title);
                 } 
             });
     }
@@ -49,6 +52,8 @@ export class UtilityService {
             .then((res) => {
                 this.notifyService.showSuccess("Clarification title modified successfully !!",
                     "Notification");
+
+                    this.getClarificationListData();
             })
             .catch((err) => {
                 this.notifyService.showError("Error Occured while modifiying the clarification title !!",
@@ -62,9 +67,29 @@ export class UtilityService {
             .then((res) => {
                 this.notifyService.showSuccess("Clarification Deleted successfully !!",
                     "Notification");
+
+                    this.getClarificationListData();
             })
             .catch((err) => {
                 this.notifyService.showError("Error Occured while deleting the Clarification !!",
+                    "Notification");
+                console.log('err', err);
+            });
+    }
+
+    sendFeedback(clarificationId: string, feedback: Feedback) {
+        this.clarificationService.addFeedback(clarificationId, feedback)
+            .then((res) => {
+                console.log(res);
+                if (res?.status === 'success' && res?.message) {
+                    const message = res.message;
+                    this.sharingService.setFeedbackResponse(message);
+                }
+                this.notifyService.showSuccess("Feedback added successfully !!",
+                    "Notification");
+            })
+            .catch((err) => {
+                this.notifyService.showError("Error Occured while sending the Feedback!!",
                     "Notification");
                 console.log('err', err);
             });

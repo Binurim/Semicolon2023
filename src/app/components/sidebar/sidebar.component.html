@@ -13,22 +13,24 @@
       *ngFor="let menuItem of menuItems"
       class="{{ menuItem.class }} nav-item"
     >
-    <a [routerLink]="[menuItem.path]" (click)="clickExistingClarification(menuItem.id, menuItem.title)">
-      <div class="row col-12">
-        <div [ngClass]="menuItem?.id != existingChatId ? 'col-12 menuItem' : 'col-6 menuItem'">
-            <span *ngIf="!isEditEnable  || (menuItem.id !== existingChatId)" title="{{ menuItem?.title }}">{{ menuItem?.title }}</span>
-            <input id="clar" class="clarificationTitle" *ngIf="isEditEnable && (menuItem.id == existingChatId)" [(ngModel)]="menuItemTitle"
-             />
+    <a [routerLink]="[menuItem.path]" class="sidebar_menu">
+      <div class="row col-12 sidebar_menu_wrapper">
+        <div *ngIf="!isEditEnable  || (menuItem.id !== sharingService.getClarificationId())" [ngClass]="menuItem?.id != sharingService.getClarificationId() ? 'col-12 menuItem' : 'col-6 menuItem'" (click)="clickExistingClarification(menuItem.id, menuItem.title)">
+            <span title="{{ menuItem?.title }}">{{ menuItem?.title }}</span>
         </div>
-        <div *ngIf="menuItem.id == existingChatId" class="col-3">
+        <div *ngIf="isEditEnable && (menuItem.id == sharingService.getClarificationId())" [ngClass]="menuItem?.id != sharingService.getClarificationId() ? 'col-12 menuItem' : 'col-6 menuItem'">
+          <input id="clar" class="clarification-title" [(ngModel)]="menuItemTitle"
+           />
+      </div>
+        <div *ngIf="menuItem.id == sharingService.getClarificationId()" class="col-2">
           <i *ngIf="!isEditEnable && !isDeleteEnable" title="Edit Clarification" class="delete tim-icons icon-pencil" (click)="onEdit()"> </i>
-          <i *ngIf="isEditEnable" class=" delete tim-icons icon-check-2" (click)="editExistingClarificationTitle(menuItem.id, menuItemTitle)"></i>
-          <i *ngIf="isDeleteEnable" class=" delete tim-icons icon-check-2" (click)="deleteExistingClarification(menuItem.id)"></i>
+          <i *ngIf="isEditEnable" title="Submit" class=" delete tim-icons icon-check-2" (click)="editExistingClarificationTitle(menuItem.id, menuItemTitle)"></i>
+          <i *ngIf="isDeleteEnable" title="Delete" class=" delete tim-icons icon-check-2" (click)="deleteExistingClarification(menuItem.id)"></i>
         </div>
-        <div *ngIf="menuItem.id == existingChatId" class="col-3">
+        <div *ngIf="menuItem.id == sharingService.getClarificationId()" class="col-2">
           <i *ngIf="!isEditEnable  && !isDeleteEnable" title="Delete Clarification" class=" delete tim-icons icon-trash-simple" (click)="onDelete()"> </i>
-          <i *ngIf="isEditEnable" class=" tim-icons icon-simple-remove" (click)="cancelEdit()"></i>
-          <i *ngIf="isDeleteEnable" class=" tim-icons icon-simple-remove" (click)="cancelDelete()"></i>
+          <i *ngIf="isEditEnable" title="Cancel" class=" tim-icons icon-simple-remove" (click)="cancelEdit()"></i>
+          <i *ngIf="isDeleteEnable" title="Cancel" class=" tim-icons icon-simple-remove" (click)="cancelDelete()"></i>
         </div>
       </div>
     </a>

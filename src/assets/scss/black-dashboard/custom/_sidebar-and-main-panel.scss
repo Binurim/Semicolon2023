@@ -35,11 +35,10 @@
 
     .sidebar-wrapper{
         width: $full-width;
-        min-height: 100%;
-        max-height: calc(100vh - 705px);
+        max-height: 80%;
         z-index: 4;
         position: relative;
-        overflow: auto;
+        overflow-y: auto;
 
         .dropdown .dropdown-backdrop{
           display: none !important;
@@ -255,9 +254,7 @@
         i{
             font-size: 20px;
             float: left;
-            margin-right: 12px;
             line-height: 30px;
-            width: 34px;
             text-align: center;
             color: $opacity-8;
             position: relative;

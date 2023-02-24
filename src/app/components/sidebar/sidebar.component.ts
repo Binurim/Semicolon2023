@@ -1,24 +1,18 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
 import { SharingService } from "src/app/services/sharing.service";
 import { ClarificationService } from '../../services/clarification.service';
 import { Router } from "@angular/router";
 import { NotificationService } from '../../services/notification.service';
 import { UtilityService } from '../../services/utility.service';
+import { MenuItem } from "src/app/model/clarification.model";
 
-declare interface RouteInfo {
-  id: number;
-  path: string;
-  title: string;
-  icon: string;
-  class: string;
-}
 @Component({
   selector: "app-sidebar",
   templateUrl: "./sidebar.component.html",
   styleUrls: ["./sidebar.component.scss"]
 })
 export class SidebarComponent implements OnInit, OnDestroy {
-  menuItems: any[];
+  menuItems: MenuItem[] = [];
   newChatStarted: boolean = true;
   existingChatId: string;
   clarificationList: any[] = [];
@@ -26,34 +20,32 @@ export class SidebarComponent implements OnInit, OnDestroy {
   isDeleteEnable: boolean = false;
   menuItemTitle: string = '';
   constructor(
-    private sharingService: SharingService,
+    public sharingService: SharingService,
     private clarificationService: ClarificationService,
     private notifyService: NotificationService,
     private utilityService: UtilityService,
-    private router: Router) {
+    private router: Router, 
+    private cd: ChangeDetectorRef) {
 
       this.router.events.subscribe(data=> {
         this.sharingService.setClarificationId((window.location.href.toString().split('/'))[5]);
-      })
+      });
   }
 
   subscription: any;
 
   ngOnInit() {
-    // this.sharingService.addChat$.subscribe(
-    //   status => {
-    //     if (status) {
-    //       this.getMenuItem();
-    //     }
-    //   }
-    // );
+    if(this.sharingService.getClarificationId()) {
+      this.utilityService.getSelectedClarificationData(this.sharingService.getClarificationId());
+    }
     this.getMenuItem();
     this.newChatStarted ? localStorage.setItem('newChatStarted', 'true') : localStorage.setItem('newChatStarted', 'false');
   }
 
   async getMenuItem() {
+    await this.utilityService.getClarificationListData();
     this.menuItems = [];
-    const menuItemsData = await this.utilityService.getClarificationListData();
+    const menuItemsData = this.sharingService.getClarificationList();
     if (menuItemsData?.length > 0) {
       menuItemsData?.forEach(data => {
         if (data) {
@@ -68,11 +60,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
           );
         }
       });
-    }
+    } 
   }
 
   async clickNewClarification() {
     this.newChatStarted = true;
+    this.sharingService.setSendFeedbackBtnClicked(false);
+    this.sharingService.setFeedbackResponse(null);
+    this.sharingService.setFeedback({is_satisfied: null, reason: null});
     this.newChatStarted ? localStorage.setItem('newChatStarted', 'true') : localStorage.setItem('newChatStarted', 'false');
     await this.addNewClarificationToTheList();
 
@@ -93,7 +88,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   addNewClarificationToTheList() {
     const newClarificationObj = { title: "New Clarification" };
+    this.menuItemTitle = 'New Clarification';
+    this.sharingService.setClarificationTitle(this.menuItemTitle);
     let clarificationId = '';
+    this.sharingService.setSelectedClarificationArray([]);
     this.clarificationService.createNewClarification(newClarificationObj)
       .then((res) => {
         if (res?.status === "success" && res?.data?.newClarification) {
@@ -114,9 +112,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   clickExistingClarification(clarificationId: string, title: string) {
-     this.menuItemTitle = title;
+    this.sharingService.setFeedback({is_satisfied: null, reason: null});
+    this.menuItemTitle = title;
+    this.sharingService.setClarificationTitle(this.menuItemTitle);
     this.newChatStarted = false;
+    this.sharingService.setSendFeedbackBtnClicked(false);
+    this.sharingService.setFeedbackResponse(null);
     this.newChatStarted ? localStorage.setItem('newChatStarted', 'true') : localStorage.setItem('newChatStarted', 'false');
+    this.isEditEnable = false;
+    this.isDeleteEnable = false;
 
     this.existingChatId = clarificationId;
     this.utilityService.getSelectedClarificationData(clarificationId);
@@ -125,6 +129,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   onEdit() {
+    this.menuItemTitle = this.sharingService.getClarificationTitle();
     this.isEditEnable = true;
   }
 
